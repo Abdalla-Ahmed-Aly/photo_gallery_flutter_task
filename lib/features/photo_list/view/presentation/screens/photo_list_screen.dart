@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:photo_gallery_flutter_task/core/Theam/ThemeCubit.dart';
 import 'package:photo_gallery_flutter_task/core/widget/Shimmer.dart';
+import 'package:photo_gallery_flutter_task/core/widget/ThemeToggleWidget.dart';
 import 'package:photo_gallery_flutter_task/features/photo_list/view/presentation/cubit/photo_cubit.dart';
 import 'package:photo_gallery_flutter_task/features/photo_list/view/presentation/cubit/photo_state.dart';
 
@@ -18,7 +18,7 @@ class PhotoListScreen extends StatefulWidget {
 
 class _PhotoListScreenState extends State<PhotoListScreen> {
   bool isOnline = true;
-  bool isDarkMode = false;
+  // bool isDarkMode = false;
 
   late StreamSubscription<List<ConnectivityResult>> _subscription;
   late ScrollController _scrollController;
@@ -69,7 +69,7 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = context.watch<ThemeCubit>().state == ThemeMode.dark;
+final isDark = context.watch<ThemeCubit>().isDarkMode(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +80,7 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
               'assets/images/routeLogo-dark.png',
               height: 60,
               width: 100,
-              color: isDarkMode ? Colors.white : Colors.blueAccent,
+              color: isDark ? Colors.white : Colors.blueAccent,
             ),
 
             Row(
@@ -103,28 +103,29 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                AnimatedToggleSwitch<bool>.dual(
-                  current: isDarkMode,
-                  first: false,
-                  second: true,
-                  spacing: 3.0,
-                  height: 30,
-                  indicatorSize: const Size.square(25),
-                  style: ToggleStyle(
-                    borderRadius: BorderRadius.circular(20.0),
-                    backgroundColor: Colors.grey.shade300,
-                  ),
-                  customIconBuilder: (context, value, size) {
-                    return Icon(
-                      value.value ? Icons.dark_mode : Icons.light_mode,
-                      size: 18,
-                      color: value.value ? Colors.white : Colors.orange,
-                    );
-                  },
-                  onChanged: (value) {
-                    context.read<ThemeCubit>().toggleTheme();
-                  },
-                ),
+                // AnimatedToggleSwitch<bool>.dual(
+                //   current: isDarkMode,
+                //   first: false,
+                //   second: true,
+                //   spacing: 3.0,
+                //   height: 30,
+                //   indicatorSize: const Size.square(25),
+                //   style: ToggleStyle(
+                //     borderRadius: BorderRadius.circular(20.0),
+                //     backgroundColor: Colors.grey.shade300,
+                //   ),
+                //   customIconBuilder: (context, value, size) {
+                //     return Icon(
+                //       value.value ? Icons.dark_mode : Icons.light_mode,
+                //       size: 18,
+                //       color: value.value ? Colors.white : Colors.orange,
+                //     );
+                //   },
+                //   onChanged: (value) {
+                //     context.read<ThemeCubit>().toggleTheme();
+                //   },
+                // ),
+                ThemeToggleButton()
               ],
             ),
           ],

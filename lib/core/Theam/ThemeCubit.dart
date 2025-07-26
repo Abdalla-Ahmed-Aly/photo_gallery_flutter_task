@@ -1,5 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.system);
@@ -14,5 +14,12 @@ class ThemeCubit extends Cubit<ThemeMode> {
 
   void setSystemTheme() {
     emit(ThemeMode.system);
+  }
+
+  bool isDarkMode(BuildContext context) {
+    final brightness = MediaQuery.of(context).platformBrightness;
+    if (state == ThemeMode.dark) return true;
+    if (state == ThemeMode.light) return false;
+    return brightness == Brightness.dark;
   }
 }
