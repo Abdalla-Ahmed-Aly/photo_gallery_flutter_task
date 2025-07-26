@@ -2,13 +2,6 @@
 
 part of 'photo_api_service.dart';
 
-// Dummy implementation for ParseErrorLogger to fix undefined class error.
-class ParseErrorLogger {
-  void logError(Object error, StackTrace stackTrace, RequestOptions options) {
-    // Implement error logging here if needed.
-  }
-}
-
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -27,7 +20,7 @@ class _PhotoApiService implements PhotoApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PhotoModel> getCuratedPhotos({int page = 1, int perPage = 40}) async {
+  Future<PhotoModel> getCuratedPhotos({int page = 1, int perPage = 1}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,

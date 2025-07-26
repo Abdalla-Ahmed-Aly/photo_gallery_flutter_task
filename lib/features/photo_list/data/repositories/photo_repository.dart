@@ -6,6 +6,7 @@ class PhotoRepository {
 
   PhotoRepository(this.api);
 
-  Future<PhotoModel> fetchPhotos({int page = 1}) =>
-      api.getCuratedPhotos(page: page);
+  Future<PhotoModel> fetchPhotos({int page = 1, int perPage = 40}) {
+  return api.getCuratedPhotos(page: page, perPage: perPage);
+}
 }

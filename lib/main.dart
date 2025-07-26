@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:photo_gallery_flutter_task/core/API%20Service/constans.dart';
 import 'package:photo_gallery_flutter_task/core/Theam/ThemeCubit.dart';
+import 'package:photo_gallery_flutter_task/core/cashingHive/cashing.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/model/Adapter/photo_Adapter.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/model/photo_model/photo.dart';
 
 import 'core/API Service/photo_api_service.dart';
 import 'core/Theam/AppTheam.dart';
@@ -10,7 +14,11 @@ import 'features/photo_list/data/repositories/photo_repository.dart';
 import 'features/photo_list/view/presentation/cubit/photo_cubit.dart';
 import 'features/photo_list/view/presentation/screens/photo_list_screen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(PhotoAdapter());
+  await Hive.openBox<Photo>(Cashing.NameBox);
   final dio = Dio();
 
   dio.options.headers = {'Authorization': ApiConstans.apiKey};
