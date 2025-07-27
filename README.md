@@ -23,7 +23,7 @@ A simple Flutter application that displays a list of photos fetched from the Pex
 
 | State | Light Mode | Dark Mode |
 |-------|------------|-----------|
-| ✅ Online | ![Online Light](assets/screenshots/online-light.jpg) | ![Online Dark](assets/screenshots/online-dark.png) |
+| ✅ Online | ![Online Light](assets/screenshots/online-light.jpg) | ![Online Dark](assets/screenshots/online-dark.jpg) |
 | 🚫 Offline | ![Offline Light](assets/screenshots/offline-light.jpg) | ![Offline Dark](assets/screenshots/offline-dark.jpg) |
 
 ---
