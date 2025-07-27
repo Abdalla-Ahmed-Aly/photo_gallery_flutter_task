@@ -7,15 +7,15 @@ part of 'photo_model.dart';
 // **************************************************************************
 
 PhotoModel _$PhotoModelFromJson(Map<String, dynamic> json) => PhotoModel(
-      page: (json['page'] as num?)?.toInt(),
-      perPage: (json['perPage'] as num?)?.toInt(),
-      photos: (json['photos'] as List<dynamic>?)
-          ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalResults: (json['totalResults'] as num?)?.toInt(),
-      nextPage: json['nextPage'] as String?,
-      prevPage: json['prevPage'] as String?,
-    );
+  page: (json['page'] as num?)?.toInt(),
+  perPage: (json['perPage'] as num?)?.toInt(),
+  photos: (json['photos'] as List<dynamic>?)
+      ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  totalResults: (json['totalResults'] as num?)?.toInt(),
+  nextPage: json['nextPage'] as String?,
+  prevPage: json['prevPage'] as String?,
+);
 
 Map<String, dynamic> _$PhotoModelToJson(PhotoModel instance) =>
     <String, dynamic>{

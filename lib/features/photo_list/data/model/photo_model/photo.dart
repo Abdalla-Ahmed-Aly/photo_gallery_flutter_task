@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'src.dart';
-import '../../../domain/entities/photo_entity.dart'; // استورد الـ entity
+import '../../../domain/entities/photo_entity.dart'; 
 
 part 'photo.g.dart';
 
