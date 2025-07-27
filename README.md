@@ -145,13 +145,13 @@ assets/screenshots/
 
 Make sure to include:
 
-online-light.png
+online-light.jpg
 
-online-dark.png
+online-dark.jpg
 
-offline-light.png
+offline-light.jpg
 
-offline-dark.png
+offline-dark.jpg
 
 Update pubspec.yaml to include screenshots in assets if needed.
 

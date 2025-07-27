@@ -5,12 +5,13 @@ import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_
 import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_model/photo_model.dart';
 import 'package:photo_gallery_flutter_task/features/photo_list/domain/repositories/photo_repository.dart';
 
+
 @LazySingleton(as: PhotoRepository)
 class PhotoRepositoryImpl implements PhotoRepository {
   final PhotoRemoteDataSource remote;
   final PhotoLocalDataSource local;
 
-  PhotoRepositoryImpl(this.remote, this.local);
+  PhotoRepositoryImpl(this.remote, this.local,);
 
   @override
   Future<PhotoModel> fetchPhotos({int page = 1, int perPage = 40}) {
