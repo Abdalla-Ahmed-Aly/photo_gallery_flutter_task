@@ -15,7 +15,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:photo_gallery_flutter_task/core/API%20Service/photo_api_service.dart'
     as _i6;
 import 'package:photo_gallery_flutter_task/core/di/injection_module.dart'
-    as _i12;
+    as _i13;
 import 'package:photo_gallery_flutter_task/features/photo_list/data/data_sources/photo_remote_data_source.dart'
     as _i8;
 import 'package:photo_gallery_flutter_task/features/photo_list/data/data_sources/PhotoLocalDataSource.dart'
@@ -26,8 +26,10 @@ import 'package:photo_gallery_flutter_task/features/photo_list/data/repositories
     as _i10;
 import 'package:photo_gallery_flutter_task/features/photo_list/domain/repositories/photo_repository.dart'
     as _i9;
-import 'package:photo_gallery_flutter_task/features/photo_list/view/presentation/cubit/photo_cubit.dart'
+import 'package:photo_gallery_flutter_task/features/photo_list/domain/usecases/get_photos_usecase.dart'
     as _i11;
+import 'package:photo_gallery_flutter_task/features/photo_list/view/presentation/cubit/photo_cubit.dart'
+    as _i12;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -57,10 +59,14 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i8.PhotoRemoteDataSource>(),
           gh<_i7.PhotoLocalDataSource>(),
         ));
-    gh.factory<_i11.PhotoCubit>(
-        () => _i11.PhotoCubit(gh<_i9.PhotoRepository>()));
+    gh.lazySingleton<_i11.GetPhotosUseCase>(() => _i11.GetPhotosUseCase(
+          gh<_i9.PhotoRepository>(),
+          page: gh<int>(),
+        ));
+    gh.factory<_i12.PhotoCubit>(
+        () => _i12.PhotoCubit(gh<_i9.PhotoRepository>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i12.RegisterModule {}
+class _$RegisterModule extends _i13.RegisterModule {}
