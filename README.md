@@ -62,7 +62,7 @@ Edit
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/your-username/photo_gallery_flutter_task.git
+git clone https://github.com/Abdalla-Ahmed-Aly/photo_gallery_flutter_task
 cd photo_gallery_flutter_task
 Install dependencies:
 
@@ -136,8 +136,8 @@ The selected theme persists across app restarts using local storage.
 🙋‍♂️ Author
 Abdalla Ahmed Ali
 Route Job Fair Intern
-Email: abdalla@example.com
-GitHub: your-github
+Email: abdalla01145854052@gmail.com
+GitHub: https://github.com/Abdalla-Ahmed-Aly
 
 📂 Notes
 The screenshots are located in:
