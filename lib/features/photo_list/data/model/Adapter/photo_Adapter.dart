@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:photo_gallery_flutter_task/features/photo_list/model/photo_model/photo.dart';
-import 'package:photo_gallery_flutter_task/features/photo_list/model/photo_model/src.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_model/photo.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_model/src.dart';
 
 class PhotoAdapter extends TypeAdapter<Photo> {
   @override

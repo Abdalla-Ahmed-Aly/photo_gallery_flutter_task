@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'src.dart';
+import '../../../domain/entities/photo_entity.dart'; // استورد الـ entity
+
 part 'photo.g.dart';
 
 @JsonSerializable()
@@ -30,8 +32,15 @@ class Photo {
     this.alt,
   });
 
-  factory Photo.fromJson(Map<String, dynamic> json) =>       _$PhotoFromJson(json);
-
+  factory Photo.fromJson(Map<String, dynamic> json) =>
+      _$PhotoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
+
+  PhotoEntity toEntity() {
+    return PhotoEntity(
+      id: id ?? 0,
+      url: src?.medium ?? '',
+    );
+  }
 }

@@ -57,7 +57,7 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
     }
   }
 
-   void _onScroll() {
+  void _onScroll() {
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 200 &&
         !isLoadingMore) {
@@ -143,19 +143,26 @@ class _PhotoListScreenState extends State<PhotoListScreen> {
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
               padding: const EdgeInsets.all(12),
-  itemCount: photos.length + (isLoadingMore ? 2 : 0), 
+              itemCount: photos.length + (isLoadingMore ? 2 : 0),
               itemBuilder: (context, index) {
+                if (index >= photos.length) return const SizedBox();
+
                 final photo = photos[index];
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child:  CachedNetworkImage(
-                    imageUrl: photo.src?.medium ?? '',
+                  child: CachedNetworkImage(
+                    imageUrl: photo.url ,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => const AspectRatio(
                       aspectRatio: 3 / 4,
                       child: ShimmerItem(),
                     ),
-                    errorWidget: (context, url, error) {return Image.asset('assets/images/882-200x300.jpg',fit: BoxFit.cover,);}
+                    errorWidget: (context, url, error) {
+                      return Image.asset(
+                        'assets/images/882-200x300.jpg',
+                        fit: BoxFit.cover,
+                      );
+                    },
                   ),
                 );
               },

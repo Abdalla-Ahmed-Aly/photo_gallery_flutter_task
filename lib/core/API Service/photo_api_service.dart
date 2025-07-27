@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import 'package:photo_gallery_flutter_task/core/API%20Service/constans.dart';
-import 'package:photo_gallery_flutter_task/features/photo_list/model/photo_model/photo_model.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_model/photo_model.dart';
 
 part 'photo_api_service.g.dart';
 

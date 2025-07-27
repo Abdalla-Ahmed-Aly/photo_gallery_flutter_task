@@ -1,14 +1,13 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:photo_gallery_flutter_task/core/cashingHive/cashing.dart';
-import 'package:photo_gallery_flutter_task/features/photo_list/data/repositories/photo_repository.dart';
-import 'package:photo_gallery_flutter_task/features/photo_list/model/photo_model/photo.dart';
+import 'package:injectable/injectable.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/data/model/photo_model/photo.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/domain/repositories/photo_repository.dart';
+import 'package:photo_gallery_flutter_task/features/photo_list/domain/usecases/get_photos_usecase.dart';
 import 'package:photo_gallery_flutter_task/features/photo_list/view/presentation/cubit/photo_state.dart';
 
+@injectable
 class PhotoCubit extends Cubit<PhotoState> {
   final PhotoRepository repository;
-  final Box<Photo> _cacheBox = Hive.box<Photo>(Cashing.NameBox);
 
   List<Photo> _allPhotos = [];
   bool isOnline = true;
@@ -16,35 +15,37 @@ class PhotoCubit extends Cubit<PhotoState> {
 
   PhotoCubit(this.repository) : super(PhotoInitial());
 
-Future<void> fetchPhotos({int page = 1}) async {
-  if (!isOnline) {
-    loadPhotosFromCache();
-    return;
-  }
-
-  try {
-    final photoModel = await repository.fetchPhotos(page: page,perPage: 40);
-    final newPhotos = photoModel.photos ?? [];
-
-    _allPhotos.addAll(newPhotos);
-
-    final box = await Hive.openBox<Photo>(Cashing.NameBox);
-    for (var photo in newPhotos) {
-      box.put(photo.id, photo);
+  Future<void> fetchPhotos({int page = 1}) async {
+    if (!isOnline) {
+      loadPhotosFromCache();
+      return;
     }
 
-    emit(PhotoLoaded(List.from(_allPhotos)));
-  } catch (e) {
-    emit(PhotoError(e.toString()));
+    try {
+      final getPhotosUseCase = GetPhotosUseCase(repository,page: page);
+      final photoModel = await getPhotosUseCase.call(page: page);
+      final newPhotos = photoModel.photos ?? [];
+
+      _allPhotos.addAll(newPhotos); 
+
+      await repository.cachePhotos(newPhotos); 
+
+      emit(PhotoLoaded(
+        List.from(_allPhotos.map((photo) => photo.toEntity()))
+      ));
+    } catch (e) {
+      emit(PhotoError(e.toString()));
+    }
   }
-}
 
   void loadPhotosFromCache() {
-    final List<Photo> cached = _cacheBox.values.toList();
+    final List<Photo> cached = repository.getCachedPhotos();
     _allPhotos = cached;
-print("cash" + _allPhotos.length.toString());
+
     if (cached.isNotEmpty) {
-      emit(PhotoLoaded(List.from(cached)));
+      emit(PhotoLoaded(
+        cached.map((photo) => photo.toEntity()).toList()
+      ));
     } else {
       emit(PhotoError("لا توجد صور مخزنة حاليًا"));
     }
