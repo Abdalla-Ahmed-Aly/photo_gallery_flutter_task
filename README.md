@@ -1,40 +1,40 @@
 # 📸 Photo Gallery App
 
-A simple Flutter application that displays a list of photos fetched from the Pexels API. The app follows **Clean Architecture**, uses **Cubit** for state management, supports **offline mode** with caching, and has **dark/light mode** toggle and network status indicator.
+A Flutter application that fetches and displays a gallery of photos from the [Pexels API](https://www.pexels.com/api/). The app is built using **Clean Architecture**, features **offline support**, and implements **state management with Cubit**, with support for **light/dark themes** and **network status detection**.
 
 ---
 
 ## 🚀 Features
 
-- ✅ Fetch and display photos from a public API
-- 📶 Network connectivity indicator (Online / Offline)
-- 💾 Data & image caching using Hive & cached_network_image
-- 🧱 Clean Architecture structure
+- ✅ Fetch and display photos with infinite scroll
+- 📶 Network connectivity status (Online/Offline)
+- 💾 Data and image caching (Hive + cached_network_image)
+- 🧱 Follows Clean Architecture principles
 - 🧠 State management using Cubit
-- 🔧 Dependency Injection with Injectable
-- 📦 API integration using Retrofit
-- 📁 JSON parsing with json_serializable
-- 🌙 Light/Dark mode with persistence
-- 🔄 Infinite scrolling with pagination
+- 🔧 Dependency Injection with `injectable` + `get_it`
+- 📦 API integration via `Retrofit` and `Dio`
+- 🔄 Pull to refresh & pagination
+- 🌙 Light/Dark mode with persistent storage
 
 ---
 
 ## 📱 Screenshots
 
-| State | Light Mode | Dark Mode |
-|-------|------------|-----------|
-| ✅ Online | ![Online Light](assets/screenshots/online-light.jpg) | ![Online Dark](assets/screenshots/online-dark.jpg) |
-| 🚫 Offline | ![Offline Light](assets/screenshots/offline-light.jpg) | ![Offline Dark](assets/screenshots/offline-dark.jpg) |
+| Mode       | Online                     | Offline                    |
+|------------|----------------------------|----------------------------|
+| Light Mode | ![Online Light](assets/screenshots/online-light.jpg) | ![Offline Light](assets/screenshots/offline-light.jpg) |
+| Dark Mode  | ![Online Dark](assets/screenshots/online-dark.jpg)   | ![Offline Dark](assets/screenshots/offline-dark.jpg)   |
 
 ---
 
-## 🧱 Clean Architecture Overview
+## 🧱 Clean Architecture Structure
 
 lib/
 ├── core/
-│ ├── API Service/
-│ ├── Theme/
-│ └── Dependency Injection (DI)
+│ ├── api/
+│ ├── theme/
+│ └── di/ # Dependency Injection
+│
 ├── features/
 │ └── photo_list/
 │ ├── data/
@@ -49,7 +49,6 @@ lib/
 │ └── presentation/
 │ ├── cubit/
 │ └── screens/
-├── main.dart
 
 yaml
 Copy
@@ -59,7 +58,7 @@ Edit
 
 ## ⚙️ How to Run
 
-1. Clone the repo:
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/Abdalla-Ahmed-Aly/photo_gallery_flutter_task
@@ -76,15 +75,15 @@ bash
 Copy
 Edit
 flutter pub run build_runner build --delete-conflicting-outputs
-Add your Pexels API key:
+Add your API key:
 
-In ApiConstants.dart:
+Replace in ApiConstants.dart:
 
 dart
 Copy
 Edit
-class ApiConstans {
-  static const apiKey = "YOUR_API_KEY";
+class ApiConstants {
+  static const apiKey = "YOUR_PEXELS_API_KEY";
 }
 Run the app:
 
@@ -92,85 +91,92 @@ bash
 Copy
 Edit
 flutter run
-🧪 Optional (Bonus)
-✅ Unit testing for Cubits, Use Cases, or Repositories
+🧪 Unit Testing (Bonus ✅)
+This project includes unit tests for key logic layers.
 
-🔄 More advanced pagination and error handling
+✔️ Coverage:
+Layer	What’s Tested
+Cubits	Emitted states on success & failure
+Use Cases	Business logic test (e.g., page fetch)
+Repositories	Network & cache behaviors, error scenarios
 
-🛠️ Packages Used
-flutter_bloc
+🔍 Test Examples:
+dart
+Copy
+Edit
+blocTest<PhotoCubit, PhotoState>(
+  'emits [PhotoLoading, PhotoLoaded] when fetchPhotos succeeds',
+  build: () {
+    when(mockRepo.fetchPhotos(page: 1, perPage: 10))
+        .thenAnswer((_) async => mockPhotoModel);
+    return PhotoCubit(mockRepo);
+  },
+  act: (cubit) => cubit.fetchPhotos(page: 1),
+  expect: () => [isA<PhotoLoading>(), isA<PhotoLoaded>()],
+);
+▶️ Run Tests:
+bash
+Copy
+Edit
+flutter test
+🧪 Tools Used:
+flutter_test
 
-retrofit
+mockito
 
-dio
+bloc_test
 
-injectable
+💡 Network Status Indicator
+🟢 Green: Online
 
-hive
+🔴 Red: Offline
+Shown in app bar for clear visibility.
 
-json_serializable
+🌗 Theme Switching
+Users can toggle between Light & Dark mode.
 
-cached_network_image
+Selected theme is stored locally and persists across app restarts.
 
-connectivity_plus
-
-🧠 State Flow
-State	Description
-PhotoInitial	Initial state before fetching
-PhotoLoading	While data is being fetched
-PhotoLoaded	Data fetched successfully (from API/cache)
-PhotoError	Error occurred (e.g., API failed or no cache)
-
-💡 Network Status
-A small indicator in the app bar shows:
-
-🟢 Online: Green circle + "Online"
-
-🔴 Offline: Red circle + "Offline"
-
-🌗 Theme Toggle
-Users can toggle between Dark and Light modes using a button.
-
-The selected theme persists across app restarts using local storage.
-
-🙋‍♂️ Author
+👤 Author
 Abdalla Ahmed Ali
-Route Job Fair Intern
-Email: abdalla01145854052@gmail.com
-GitHub: https://github.com/Abdalla-Ahmed-Aly
+📩 abdalla01145854052@gmail.com
+🔗 GitHub
+🎓 Route Job Fair Intern
 
-📂 Notes
-The screenshots are located in:
+📂 Assets
+All screenshots are stored in:
+
+bash
+Copy
+Edit
 assets/screenshots/
+Make sure pubspec.yaml includes:
 
-Make sure to include:
-
-online-light.jpg
-
-online-dark.jpg
-
-offline-light.jpg
-
-offline-dark.jpg
-
-Update pubspec.yaml to include screenshots in assets if needed.
-
+yaml
+Copy
+Edit
+assets:
+  - assets/screenshots/
 ✅ Final Checklist
- Clean Architecture applied
+ Clean Architecture implemented
 
- Cubit state management
+ State management via Cubit
 
- Dependency Injection (injectable)
+ Dependency Injection (injectable, get_it)
 
- Hive caching (data + images)
+ Data + image caching with Hive
 
- Retrofit + json_serializable
+ API integration using Retrofit & Dio
 
- Dark / Light theme toggle
+ JSON parsing with json_serializable
 
- Network status indicator
+ Light/Dark theme toggle
 
- Scrollable photo list + pagination
+ Online/Offline indicator
 
- Readme with screenshots
+ Infinite scrolling with pagination
+
+ Unit testing for core logic
+
+ Documentation with screenshots ✅
 
